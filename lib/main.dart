@@ -4,9 +4,8 @@
 // lib/main.dart
 
 import 'package:flutter/material.dart';
-
 import 'config/setup_dependencies.dart';
-import 'core/constants/app_colors.dart';
+import 'core/constants/theme.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,10 +23,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'ERP SaaS for SME Car Service Centers',
-      theme: ThemeData(
-        primaryColor: AppColors.primaryPrimary,
-        scaffoldBackgroundColor: AppColors.background,
-      ),
+      theme: AppTheme.lightTheme,
+      themeMode: ThemeMode.light,
       home: Scaffold(
         appBar: AppBar(
           title: Text('Welcome'),
