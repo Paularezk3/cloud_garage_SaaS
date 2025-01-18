@@ -1,0 +1,9 @@
+{
+  "@@locale": "en",
+  "appTitle": "My Application",
+  "@appTitle": {},
+  "welcomeMessage": "Welcome!",
+  "@welcomeMessage": {},
+  "changeLanguage": "Change Language",
+  "@changeLanguage": {}
+}

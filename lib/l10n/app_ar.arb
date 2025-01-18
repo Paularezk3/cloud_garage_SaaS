@@ -1,0 +1,9 @@
+{
+  "@@locale": "ar",
+  "appTitle": "تطبيقي",
+  "@appTitle": {},
+  "welcomeMessage": "مرحباً!",
+  "@welcomeMessage": {},
+  "changeLanguage": "تغيير اللغة",
+  "@changeLanguage": {}
+}

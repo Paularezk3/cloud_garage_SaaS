@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "267602532261",
+    "project_id": "cloud-garage-13378",
+    "storage_bucket": "cloud-garage-13378.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:267602532261:android:f4e3441301f0462569fa4c",
+        "android_client_info": {
+          "package_name": "com.example.cloud_garage"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0nNY9bR0jueFs46v_J95jwLStsTS85PI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

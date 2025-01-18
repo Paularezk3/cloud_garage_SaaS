@@ -1,15 +1,14 @@
 // lib/core/di/setup_dependencies.dart
+import 'package:cloud_garage/core/utils/device_utils.dart';
+import 'package:cloud_garage/core/utils/logger.dart';
+import 'package:cloud_garage/core/utils/responsive.dart';
 import 'package:get_it/get_it.dart';
 
-final GetIt locator = GetIt.instance;
+final getIt = GetIt.instance;
 
 void setupDependencies() {
-  // Register Repositories
-  // locator.registerLazySingleton<UserRepository>(() => UserRepositoryImpl());
-
-  // Register Use Cases
-  // locator.registerLazySingleton(() => GetUser(locator()));
-
-  // Register Other Services (Example: Network Service)
-  // locator.registerLazySingleton<NetworkService>(() => DioNetworkService());
+  // Register LocaleService as a singleton
+  getIt.registerLazySingleton<IDeviceUtils>(() => DeviceUtils());
+  getIt.registerLazySingleton<IResponsive>(() => Responsive());
+  getIt.registerLazySingleton<ILogger>(() => AppLogger());
 }
