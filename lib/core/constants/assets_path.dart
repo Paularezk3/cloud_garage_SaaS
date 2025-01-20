@@ -11,8 +11,13 @@ class AssetsPath {
   static const testBlueGradient = "$_imagesPath/test_blue_gradient.png";
   static const serviceCenterPhoto = "$_imagesPath/elKhawaga.png";
 
-  // shapes
+  // Shapes
   static const sideWaveShape = "$_shapesPath/side_wave.png";
+
+  // Logos
+  static const saasLogo64 = "$_logosPath/saas_logo_64.png";
+  static const saasLogo256 = "$_logosPath/saas_logo_256.png";
+  static const saasLogo512 = "$_logosPath/saas_logo_512.png";
 
   // Fonts
   static const tTHovesProTrialBlack =

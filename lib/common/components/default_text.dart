@@ -3,6 +3,8 @@ import 'package:cloud_garage/core/utils/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../core/constants/strings.dart';
+
 class DefaultText extends StatelessWidget {
   final String text;
   final double? fontSize;
@@ -23,8 +25,8 @@ class DefaultText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Determine the font based on the locale
-    final locale = AppLocalizations.of(context)?.localeName ?? 'ar';
-    final fontFamily = locale == 'ar' ? 'IBMPlexSansArabic' : 'TTHovesPro';
+    final isArabic = (AppLocalizations.of(context)?.localeName ?? 'ar') == "ar";
+    final fontFamily = Strings.fontFamilyName(isArabic);
     if (responsive == null && fontSize != null) {
       throw Exception(
           "responsive is expected, responsive == null && fontSize != null");

@@ -39,7 +39,7 @@ class IconContainer extends StatelessWidget {
       ),
       child: Icon(
         icon,
-        color: iconColor ?? Colors.grey[800], // Dark grey or custom color.
+        color: iconColor ?? Colors.grey[800],
         size: 24,
       ),
     );

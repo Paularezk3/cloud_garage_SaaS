@@ -1,3 +1,4 @@
+import 'package:cloud_garage/core/constants/assets_path.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common/components/default_text.dart';
@@ -20,14 +21,30 @@ class CustomNavigationBar extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min, // Shrink-wrap the Column
       children: [
-        DefaultText(
-          "EL-KHAWAGA",
-          fontSize: 26,
-          responsive: responsive,
-          fontWeight: FontWeight.w700,
+        SizedBox(
+          height: responsive.height(15),
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 50,
+              child: Image.asset(AssetsPath.saasLogo64),
+            ),
+            SizedBox(
+              width: 12,
+            ),
+            DefaultText(
+              "El-Khawaga",
+              fontSize: 18,
+              responsive: responsive,
+              fontWeight: FontWeight.w600,
+            )
+          ],
         ),
         SizedBox(
-          height: responsive.height(12),
+          height: responsive.height(25),
         ),
         Flexible(
           fit: FlexFit.loose,
@@ -53,10 +70,10 @@ class CustomNavigationBar extends StatelessWidget {
                             bottomRight: Radius.circular(8),
                             topRight: Radius.circular(8),
                           ),
-                          color: item.itemName == 'Profile Management'
+                          color: item.itemName == 'Dashboard'
                               ? AppColors.background
                               : null,
-                          boxShadow: item.itemName == 'Profile Management'
+                          boxShadow: item.itemName == 'Dashboard'
                               ? [
                                   BoxShadow(
                                     offset: const Offset(3, 3),
@@ -74,22 +91,22 @@ class CustomNavigationBar extends StatelessWidget {
                             Container(
                               height: 50,
                               width: 4,
-                              color: item.itemName == 'Profile Management'
+                              color: item.itemName == 'Dashboard'
                                   ? AppColors.primaryPrimary
                                   : null,
                             ),
-                            const SizedBox(width: 12),
+                            const SizedBox(width: 15),
                             Icon(
                               item.itemIcon,
-                              color: item.itemName == 'Profile Management'
+                              color: item.itemName == 'Dashboard'
                                   ? AppColors.primaryPrimary
                                   : Colors.blueGrey,
                             ),
-                            const SizedBox(width: 12),
+                            const SizedBox(width: 15),
                             DefaultText(
                               item.itemName,
                               fontWeight: FontWeight.w500,
-                              fontColor: item.itemName == 'Profile Management'
+                              fontColor: item.itemName == 'Dashboard'
                                   ? AppColors.primaryPrimary
                                   : Colors.blueGrey,
                             ),

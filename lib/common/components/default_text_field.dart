@@ -1,5 +1,7 @@
+import 'package:cloud_garage/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import '../../core/constants/app_colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DefaultTextField extends StatefulWidget {
   final String? hintText;
@@ -51,13 +53,14 @@ class DefaultTextFieldState extends State<DefaultTextField> {
     final borderRadius = BorderRadius.circular(12);
     final primaryColor = AppColors.primaryPrimary;
     final bool withIcon = widget.icon != null;
-
+    final isArabic = AppLocalizations.of(context)!.localeName == "ar";
     return TextField(
       controller: widget.controller,
       obscureText: _obscureText,
       onChanged: widget.onChanged,
       decoration: InputDecoration(
         hintText: widget.hintText,
+        hintStyle: TextStyle(fontFamily: Strings.fontFamilyName(isArabic)),
         prefixIcon: withIcon ? Icon(widget.icon, color: Colors.grey) : null,
         filled: withIcon,
         fillColor: withIcon ? AppColors.primarySecondary : null,
