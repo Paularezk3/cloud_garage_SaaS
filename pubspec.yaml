@@ -38,9 +38,17 @@ flutter:
   uses-material-design: true
 
   assets:
+    # Photos
     - assets/images/test_blue_gradient.png
     - assets/images/elKhawaga.png
+
+    # Shapes
     - assets/shapes/side_wave.png
+    - assets/shapes/yellow_wave.png
+    - assets/shapes/purple_wave.png
+    - assets/shapes/red_wave.png
+
+    # Logos
     - assets/logos/saas_logo_64.png
     - assets/logos/saas_logo_256.png
     - assets/logos/saas_logo_512.png

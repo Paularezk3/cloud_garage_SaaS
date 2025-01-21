@@ -13,6 +13,9 @@ class AssetsPath {
 
   // Shapes
   static const sideWaveShape = "$_shapesPath/side_wave.png";
+  static const yellowWaveShape = "$_shapesPath/yellow_wave.png";
+  static const redWaveShape = "$_shapesPath/red_wave.png";
+  static const purpleWaveShape = "$_shapesPath/purple_wave.png";
 
   // Logos
   static const saasLogo64 = "$_logosPath/saas_logo_64.png";

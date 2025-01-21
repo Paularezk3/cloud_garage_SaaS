@@ -1,5 +1,6 @@
 import 'package:cloud_garage/config/setup_dependencies.dart';
 import 'package:cloud_garage/core/constants/app_colors.dart';
+import 'package:cloud_garage/core/constants/assets_path.dart';
 import 'package:cloud_garage/core/utils/device_utils.dart';
 import 'package:cloud_garage/core/utils/responsive.dart';
 import 'package:cloud_garage/features/dashboard/domain/entities/metrics_card_item.dart';
@@ -18,23 +19,30 @@ class DashboardPage extends StatelessWidget {
     final bool isMobile = deviceType == DeviceType.mobile;
     final double navigationWidth = !isMobile ? 280 : 0;
     final IResponsive responsive = getIt<IResponsive>();
+    final bool isNavigationBarExtended = true;
     final metrics = [
       MetricsCardItem(
         icon: Icons.inventory_2,
-        title: "Sales",
+        subTitle: "Higher 20%",
+        textTitle: "Sales",
         metricNumber: "20,200",
+        backgroundImage: AssetsPath.sideWaveShape,
         iconBgColor: AppColors.primaryPrimary,
       ),
       MetricsCardItem(
         icon: Icons.inventory_2,
-        title: "Customers",
+        textTitle: "Customers",
+        subTitle: "This Month",
         metricNumber: "30",
+        backgroundImage: AssetsPath.yellowWaveShape,
         iconBgColor: AppColors.primaryPrimary,
       ),
       MetricsCardItem(
         icon: Icons.inventory_2,
-        title: "Customers",
-        metricNumber: "30",
+        backgroundImage: AssetsPath.redWaveShape,
+        textTitle: "Inventory",
+        subTitle: "202,300",
+        metricNumber: "60 Parts",
         iconBgColor: AppColors.primaryPrimary,
       ),
     ];
@@ -71,6 +79,8 @@ class DashboardPage extends StatelessWidget {
         backgroundColor: AppColors.primaryPrimaryLight,
         drawer: Drawer(
           child: CustomNavigationBar(
+            isExtended: isNavigationBarExtended,
+            isTablet: deviceUtils.getDeviceType(context) == DeviceType.tablet,
             responsive: responsive,
             navigationBarItems: navigationBarItems,
           ),
@@ -82,6 +92,9 @@ class DashboardPage extends StatelessWidget {
               SizedBox(
                 width: navigationWidth,
                 child: CustomNavigationBar(
+                    isExtended: isNavigationBarExtended,
+                    isTablet:
+                        deviceUtils.getDeviceType(context) == DeviceType.tablet,
                     responsive: responsive,
                     navigationBarItems: navigationBarItems),
               ),

@@ -21,7 +21,7 @@ class DeviceUtils implements IDeviceUtils {
     final double width = MediaQuery.of(context).size.width;
 
     if (width >= 1024) return DeviceType.desktop;
-    if (width >= 600) return DeviceType.tablet;
+    if (width >= 700) return DeviceType.tablet;
     return DeviceType.mobile;
   }
 

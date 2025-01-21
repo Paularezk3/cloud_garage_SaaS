@@ -17,109 +17,89 @@ class MetricsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: responsive.height(250),
-      child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: metrics.length,
-          itemBuilder: (context, index) {
-            final metric = metrics[index];
-            return ConstrainedBox(
-              constraints: BoxConstraints(
-                  maxHeight: responsive.height(250),
-                  maxWidth: 250,
-                  minWidth: 150),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Stack(children: [
-                  Card(
-                    margin: EdgeInsets.only(top: 15),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)),
-                    elevation: 2,
-                    color: metric.cardColor ?? AppColors.primarySecondary,
-                    child: SizedBox(
-                      width: responsive.width(100) < 170
-                          ? 170
-                          : responsive.width(100),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: responsive.width(12)),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            // Icon wrapped in a container
-                            const SizedBox(height: 45),
-                            // Title in the middle
-                            DefaultText(
-                              responsive: responsive,
-                              metric.title,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            const SizedBox(height: 5),
-                            // Number at the bottom
-                            DefaultText(
-                              metric.metricNumber,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              responsive: responsive,
-                            ),
-                            const SizedBox(height: 12),
-                          ],
-                        ),
+      height: responsive.height(130),
+      child: LayoutBuilder(builder: (context, constraints) {
+        return ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            itemCount: metrics.length,
+            itemBuilder: (context, index) {
+              final metric = metrics[index];
+              final cardWidth = (constraints.maxWidth) / 3;
+              return SizedBox(
+                width: cardWidth,
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                  elevation: 2,
+                  clipBehavior: Clip.hardEdge,
+                  color: AppColors.background,
+                  child: Stack(children: [
+                    Positioned(
+                      right: index == 0 ? -50 : (index == 1 ? -100 : -110),
+                      bottom: index == 0 ? -50 : (index == 1 ? -35 : -70),
+                      height: responsive.height(200),
+                      child: Image.asset(
+                        metric.backgroundImage,
                       ),
                     ),
-                  ),
-                  Positioned(
-                    left: responsive.width(10),
-                    top: 0,
-                    child: Container(
-                      height: 50,
-                      width: 50,
-                      decoration: BoxDecoration(
-                        color: metric.iconBgColor,
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border(
-                          bottom: BorderSide(
-                            color: metric.iconBgColor.withValues(
-                              red: (metric.iconBgColor.r * 0.8).clamp(0, 255),
-                              green: (metric.iconBgColor.g * 0.8).clamp(0, 255),
-                              blue: (metric.iconBgColor.b * 0.8).clamp(0, 255),
-                            ),
-                            width: 2,
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: responsive.width(12)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          // Icon wrapped in a container
+                          SizedBox(height: responsive.height(15)),
+                          // Title in the middle
+                          DefaultText(
+                            responsive: responsive,
+                            metric.textTitle,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
                           ),
-                          right: BorderSide(
-                            color: metric.iconBgColor.withValues(
-                              red: (metric.iconBgColor.r * 0.8).clamp(0, 255),
-                              green: (metric.iconBgColor.g * 0.8).clamp(0, 255),
-                              blue: (metric.iconBgColor.b * 0.8).clamp(0, 255),
+                          const SizedBox(height: 5),
+                          // Number at the bottom
+                          FittedBox(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width: responsive.width(10),
+                                ),
+                                Icon(Icons.monetization_on_rounded),
+                                SizedBox(
+                                  width: 12,
+                                ),
+                                DefaultText(
+                                  metric.metricNumber,
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  responsive: responsive,
+                                ),
+                              ],
                             ),
-                            width: 2,
                           ),
-                        ),
-                      ),
-                      child: Center(
-                        child: Icon(
-                          metric.icon,
-                          size: 28,
-                          color: Colors.white,
-                          shadows: [
-                            Shadow(
-                              color: Colors.black.withValues(
-                                  alpha: 0.3), // Slight shadow for the icon
-                              offset: Offset(0, 3),
-                              blurRadius: 8,
+                          const SizedBox(height: 12),
+
+                          Padding(
+                            padding: EdgeInsets.only(left: responsive.width(4)),
+                            child: DefaultText(
+                              responsive: responsive,
+                              metric.subTitle,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                ]),
-              ),
-            );
-          }),
+                  ]),
+                ),
+              );
+            });
+      }),
     );
   }
 }

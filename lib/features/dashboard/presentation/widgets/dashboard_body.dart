@@ -27,7 +27,7 @@ class DashboardBody extends StatelessWidget {
     return Column(children: [
       if (deviceType != DeviceType.mobile)
         Container(
-          height: 80,
+          height: responsive.height(80),
           padding: EdgeInsets.symmetric(
               vertical: responsive.height(12),
               horizontal: responsive.width(12)),

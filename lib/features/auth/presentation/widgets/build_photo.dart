@@ -6,6 +6,8 @@ import '../../../../core/constants/assets_path.dart';
 
 class BuildPhoto extends StatelessWidget {
   final bool isMobile;
+
+  /// Specified only for the auth_page service center photo
   const BuildPhoto({required this.isMobile, super.key});
 
   @override
@@ -15,8 +17,7 @@ class BuildPhoto extends StatelessWidget {
         // Background Gradient
         Positioned.fill(
           child: Image.asset(
-            AssetsPath
-                .testBlueGradient, // Replace with your background image path
+            AssetsPath.testBlueGradient,
             fit: BoxFit.cover,
           ),
         ),

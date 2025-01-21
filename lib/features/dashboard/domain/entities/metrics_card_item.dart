@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
 class MetricsCardItem {
-  final String title;
+  final String textTitle;
   final String metricNumber;
   final Color iconBgColor;
-  final Color? cardColor;
   final IconData icon;
+  final String subTitle;
+  final String backgroundImage;
   MetricsCardItem(
-      {this.cardColor,
+      {required this.subTitle,
       required this.iconBgColor,
+      required this.backgroundImage,
       required this.icon,
       required this.metricNumber,
-      required this.title});
+      required this.textTitle});
 }
