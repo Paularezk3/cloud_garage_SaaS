@@ -7,6 +7,8 @@ import '../../core/constants/strings.dart';
 
 class DefaultText extends StatelessWidget {
   final String text;
+
+  /// You have to enter "responsive" also if you're going to use this
   final double? fontSize;
   final FontWeight? fontWeight;
 

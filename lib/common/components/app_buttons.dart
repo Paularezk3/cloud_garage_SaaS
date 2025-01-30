@@ -1,6 +1,8 @@
+import 'package:cloud_garage/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/utils/logger.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum ButtonSize { small, big }
 
@@ -19,16 +21,16 @@ mixin ButtonStyles {
       color: isPrimary
           ? Colors.white
           : (isEnabled ? AppColors.primaryPrimary : Colors.grey),
-      fontFamily: isArabic ? 'Cairo' : 'Montserrat',
+      fontFamily: Strings.fontFamilyName(isArabic),
     );
   }
 
-  static BorderSide getBorderSide({
-    required bool isEnabled,
-    required ThemeData theme,
-  }) {
+  static BorderSide getBorderSide(
+      {required bool isEnabled, required ThemeData theme, Color? borderColor}) {
     return BorderSide(
-      color: isEnabled ? AppColors.primaryPrimary : AppColors.primarySecondary,
+      color: isEnabled
+          ? (borderColor ?? AppColors.primaryPrimary)
+          : AppColors.primarySecondary,
       width: 2,
     );
   }
@@ -47,14 +49,18 @@ mixin ButtonStyles {
     );
   }
 
-  static VoidCallback? onPressed(VoidCallback? onPressed, ILogger logger) {
+  static VoidCallback? onPressed(VoidCallback? onPressed, ILogger? logger) {
     return onPressed != null
         ? () {
-            logger.trace("Button Pressed");
+            if (logger != null) {
+              logger.trace("Button Pressed");
+            }
             onPressed();
           }
         : () {
-            logger.error("onPressed is $onPressed", StackTrace.empty);
+            if (logger != null) {
+              logger.error("onPressed is $onPressed", StackTrace.empty);
+            }
           };
   }
 }
@@ -168,19 +174,24 @@ class PrimaryButton extends StatelessWidget {
 }
 
 class OutlinedPrimaryButton extends StatelessWidget {
-  final String text;
+  /// You can set it with null, if you will use "child"
+  final String? text;
   final bool isEnabled;
   final bool isLoading;
   final VoidCallback? onPressed;
   final ButtonSize buttonSize;
   final EdgeInsets? padding;
-  final ILogger logger;
+  final ILogger? logger;
   final double? width;
   final double? height;
+  final Color? borderColor;
+
+  /// * This should be filled if the text parameter is null
+  final Widget? child;
 
   const OutlinedPrimaryButton({
     required this.text,
-    required this.logger,
+    this.logger,
     this.isEnabled = true,
     this.isLoading = false,
     this.onPressed,
@@ -188,8 +199,11 @@ class OutlinedPrimaryButton extends StatelessWidget {
     this.padding,
     this.height,
     this.width,
+    this.child,
+    this.borderColor,
     super.key,
-  });
+  }) : assert(text != null || child != null,
+            'Either "text" or "child" must be provided, but both cannot be null.');
 
   @override
   Widget build(BuildContext context) {
@@ -208,9 +222,9 @@ class OutlinedPrimaryButton extends StatelessWidget {
             ),
             side: WidgetStateProperty.resolveWith(
               (states) => ButtonStyles.getBorderSide(
-                isEnabled: (isEnabled && onPressed != null),
-                theme: theme,
-              ),
+                  isEnabled: (isEnabled && onPressed != null),
+                  theme: theme,
+                  borderColor: borderColor),
             ),
             shape: WidgetStateProperty.all(
               RoundedRectangleBorder(
@@ -234,16 +248,17 @@ class OutlinedPrimaryButton extends StatelessWidget {
                     valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                   ),
                 )
-              : Text(
-                  text,
-                  style: ButtonStyles.getTextStyle(
-                    text: text,
-                    isEnabled: (isEnabled && onPressed != null),
-                    theme: theme,
-                    buttonSize: buttonSize,
-                    isPrimary: false,
+              : child ??
+                  Text(
+                    text!,
+                    style: ButtonStyles.getTextStyle(
+                      text: text!,
+                      isEnabled: (isEnabled && onPressed != null),
+                      theme: theme,
+                      buttonSize: buttonSize,
+                      isPrimary: false,
+                    ),
                   ),
-                ),
         ),
       ),
     );
@@ -251,17 +266,21 @@ class OutlinedPrimaryButton extends StatelessWidget {
 }
 
 class SecondaryButton extends StatelessWidget {
-  final String text;
+  /// You can set it with null, if you will use "child"
+  final String? text;
   final bool isEnabled;
   final bool isLoading;
   final VoidCallback? onPressed;
   final ButtonSize buttonSize;
   final EdgeInsets? padding;
-  final ILogger logger;
+  final ILogger? logger;
 
+  /// * This should be filled if the text parameter is null
+  final Widget? child;
   const SecondaryButton({
     required this.text,
-    required this.logger,
+    this.logger,
+    this.child,
     this.isEnabled = true,
     this.isLoading = false,
     this.onPressed,
@@ -272,7 +291,8 @@ class SecondaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isArabic = RegExp(r'[\u0600-\u06FF]').hasMatch(text);
+    final bool isArabic =
+        (AppLocalizations.of(context)?.localeName ?? "ar") == "ar";
     final textStyle = TextStyle(
       fontSize: buttonSize == ButtonSize.big ? 18 : 14,
       overflow: TextOverflow.fade,
@@ -280,7 +300,7 @@ class SecondaryButton extends StatelessWidget {
       color: (isEnabled && onPressed != null)
           ? AppColors.primaryPrimary
           : Colors.grey,
-      fontFamily: isArabic ? 'Cairo' : 'Montserrat',
+      fontFamily: Strings.fontFamilyName(isArabic),
     );
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
@@ -314,12 +334,13 @@ class SecondaryButton extends StatelessWidget {
                     ),
                   ),
                 )
-              : Text(
-                  text,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  style: textStyle,
-                ),
+              : (child ??
+                  Text(
+                    text!,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: textStyle,
+                  )),
         ),
       ),
     );

@@ -5,21 +5,63 @@ import 'package:cloud_garage/core/utils/device_utils.dart';
 import 'package:cloud_garage/core/utils/responsive.dart';
 import 'package:cloud_garage/features/dashboard/domain/entities/metrics_card_item.dart';
 import 'package:cloud_garage/features/dashboard/domain/entities/navigation_bar_items.dart';
+import 'package:cloud_garage/features/dashboard/domain/entities/recent_customers_invoices.dart';
 import 'package:cloud_garage/features/dashboard/presentation/widgets/custom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import '../widgets/dashboard_body.dart';
 
-class DashboardPage extends StatelessWidget {
+class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
 
+  @override
+  State<DashboardPage> createState() => _DashboardPageState();
+}
+
+class _DashboardPageState extends State<DashboardPage> {
+  bool isNavigationBarExtended = false;
   @override
   Widget build(BuildContext context) {
     final IDeviceUtils deviceUtils = getIt<IDeviceUtils>();
     final DeviceType deviceType = deviceUtils.getDeviceType(context);
     final bool isMobile = deviceType == DeviceType.mobile;
-    final double navigationWidth = !isMobile ? 280 : 0;
+    final double navigationWidth = !isMobile
+        ? (isNavigationBarExtended
+            ? (deviceType == DeviceType.tablet ? 220 : 280)
+            : 80)
+        : 0;
     final IResponsive responsive = getIt<IResponsive>();
-    final bool isNavigationBarExtended = true;
+    final recentInvoices = RecentCustomersInvoices(invoices: [
+      Invoice(
+          customerName: "Mohamed",
+          stockTaken: "3",
+          invoiceNumber: "25,000",
+          date: DateTime(2025, 1, 21, 15, 20)),
+      Invoice(
+          customerName: "Mohameden",
+          stockTaken: "7",
+          invoiceNumber: "5,200",
+          date: DateTime(2025, 1, 20, 15, 20)),
+      Invoice(
+          customerName: "Ahmed",
+          stockTaken: "1",
+          invoiceNumber: "42,000",
+          date: DateTime(2025, 1, 20, 12, 20)),
+      Invoice(
+          customerName: "Ahmed",
+          stockTaken: "1",
+          invoiceNumber: "42,000",
+          date: DateTime(2025, 1, 20, 12, 20)),
+      Invoice(
+          customerName: "Ahmed",
+          stockTaken: "1",
+          invoiceNumber: "42,000",
+          date: DateTime(2025, 1, 20, 12, 20)),
+      Invoice(
+          customerName: "Ahmed",
+          stockTaken: "1",
+          invoiceNumber: "42,000",
+          date: DateTime(2025, 1, 20, 12, 20))
+    ]);
     final metrics = [
       MetricsCardItem(
         icon: Icons.inventory_2,
@@ -62,29 +104,18 @@ class DashboardPage extends StatelessWidget {
     ];
 
     return Scaffold(
-        appBar: isMobile
-            ? AppBar(
-                title: const Text('Dashboard'),
-                backgroundColor: Colors.blueAccent,
-                actions: [
-                  IconButton(
-                    icon: const Icon(Icons.notifications),
-                    onPressed: () {
-                      // Handle notifications
-                    },
-                  ),
-                ],
-              )
-            : null,
         backgroundColor: AppColors.primaryPrimaryLight,
-        drawer: Drawer(
-          child: CustomNavigationBar(
-            isExtended: isNavigationBarExtended,
-            isTablet: deviceUtils.getDeviceType(context) == DeviceType.tablet,
-            responsive: responsive,
-            navigationBarItems: navigationBarItems,
-          ),
-        ),
+        // drawer: Drawer(
+        //   child: CustomNavigationBar(
+        //     onExpandedToggle: () => setState(() {
+        //       isNavigationBarExtended = !isNavigationBarExtended;
+        //     }),
+        //     isExtended: isNavigationBarExtended,
+        //     isTablet: deviceUtils.getDeviceType(context) == DeviceType.tablet,
+        //     responsive: responsive,
+        //     navigationBarItems: navigationBarItems,
+        //   ),
+        // ),
         body: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -92,17 +123,18 @@ class DashboardPage extends StatelessWidget {
               SizedBox(
                 width: navigationWidth,
                 child: CustomNavigationBar(
+                    onExpandedToggle: () {
+                      isNavigationBarExtended = !isNavigationBarExtended;
+                      setState(() {});
+                    },
                     isExtended: isNavigationBarExtended,
                     isTablet:
                         deviceUtils.getDeviceType(context) == DeviceType.tablet,
                     responsive: responsive,
                     navigationBarItems: navigationBarItems),
               ),
-              SizedBox(
-                width: 20,
-              ),
             ],
-            Flexible(
+            Expanded(
               child: Container(
                 decoration: BoxDecoration(
                   color: AppColors.background.withValues(alpha: 0.8),
@@ -122,6 +154,7 @@ class DashboardPage extends StatelessWidget {
                   ],
                 ),
                 child: DashboardBody(
+                  recentInvoices: recentInvoices,
                   metrics: metrics,
                   deviceType: deviceType,
                   responsive: responsive,
